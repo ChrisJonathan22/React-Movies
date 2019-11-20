@@ -24,6 +24,14 @@ export default class Home extends Component {
 
         this.fetchItems = this.fetchItems.bind(this);
         this.loadMoreItems = this.loadMoreItems.bind(this);
+        this.searchItems = this.searchItems.bind(this);
+    }
+
+
+    componentDidMount() {
+        this.setState({ loading: true });
+        const ENDPOINT = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+        this.fetchItems(ENDPOINT);
     }
 
     async fetchItems (url) {
@@ -39,22 +47,61 @@ export default class Home extends Component {
         console.log(result);
     }
 
-    async loadMoreItems () {
-        
+        loadMoreItems () {
+        let endpoint = '';
+        this.setState({ loading: true });
+
+        let { searchTerm, currentPage } = this.state;
+
+        if (searchTerm === '') {
+            endpoint = `${API_URL}movie/popular/api_key=${API_KEY}&language=en-US&page=${currentPage + 1}`;
+        } else {
+            endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}&page=${currentPage + 1}`;
+        }
+
+        this.fetchItems(endpoint);
     }
 
-    componentDidMount() {
-        this.setState({ loading: true });
-        const ENDPOINT = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-        this.fetchItems(ENDPOINT);
+    searchItems (searchTerm) {
+        console.log(searchTerm);
+        let endpoint = '';
+        this.setState({
+            movies: [],
+            loading: true,
+            searchTerm
+        });
+
+        if (searchTerm === '') {
+            endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+        } else {
+            endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}`;
+        }
+
+        this.fetchItems(endpoint);
     }
+
+
+    
     
     render() {
+        let { searchTerm } = this.state;
         return (
             <div className='rmdb-home'>
-              <HeroImage />
-              <SearchBar />
-              <FourColGrid />
+                {this.state.heroImage ?
+                <div>
+                    <HeroImage 
+                        image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${this.state.heroImage.backdrop_path}`}
+                        title={this.state.heroImage.original_title}
+                        text={this.state.heroImage.overview}
+                    />
+                    <SearchBar callback={this.searchItems} />
+                </div> : null }
+                <div className='rmdb-home-grid'>
+                    <FourColGrid 
+                        header={searchTerm ? 'Search Result' : 'Popular Movies'}
+                        children={[1,2,3,4,5,6]} 
+                    />
+                </div>
               <Spinner />
               <LoadMoreBtn />  
             </div>
