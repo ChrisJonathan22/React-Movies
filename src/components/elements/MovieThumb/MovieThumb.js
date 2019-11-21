@@ -3,9 +3,9 @@ import './MovieThumb.scss';
 
 const MovieThumb = (props) => {
     return (
-        <>
-            MovieThumb
-        </>
+        <div className='rmdb-moviethumb'>
+            <img src={props.image} alt='moviethumb' />
+        </div>
     );
 };
 

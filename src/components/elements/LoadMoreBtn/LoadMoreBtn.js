@@ -3,9 +3,9 @@ import './LoadMoreBtn.scss';
 
 const LoadMoreBtn = (props) => {
     return (
-        <>
-            LoadMoreBtn
-        </>
+        <div className='rmdb-loadmorebtn' onClick={props.onClick}>
+            <p>{ props.text }</p>
+        </div>
     );
 };
 

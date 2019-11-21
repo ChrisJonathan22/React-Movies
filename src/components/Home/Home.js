@@ -62,29 +62,29 @@ export default class Home extends Component {
         this.fetchItems(endpoint);
     }
 
-    searchItems (searchTerm) {
-        console.log(searchTerm);
-        let endpoint = '';
-        this.setState({
-            movies: [],
-            loading: true,
-            searchTerm
-        });
+        searchItems (searchTerm) {
+            console.log(searchTerm);
+            let endpoint = '';
+            this.setState({
+                movies: [],
+                loading: true,
+                searchTerm
+            });
 
-        if (searchTerm === '') {
-            endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-        } else {
-            endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}`;
+            if (searchTerm === '') {
+                endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+            } else {
+                endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}`;
+            }
+
+            this.fetchItems(endpoint);
         }
-
-        this.fetchItems(endpoint);
-    }
 
 
     
     
     render() {
-        let { searchTerm } = this.state;
+        let { searchTerm, loading, movies, currentPage, totalPages } = this.state;
         return (
             <div className='rmdb-home'>
                 {this.state.heroImage ?
@@ -99,11 +99,27 @@ export default class Home extends Component {
                 <div className='rmdb-home-grid'>
                     <FourColGrid 
                         header={searchTerm ? 'Search Result' : 'Popular Movies'}
-                        children={[1,2,3,4,5,6]} 
-                    />
+                        loading={loading}
+                    >
+                        {
+                            movies.map((element, i) => {
+                                return <MovieThumb 
+                                            key={i}
+                                            clickable={true}
+                                            image={element.poster_path ? `${IMAGE_BASE_URL}${POSTER_SIZE}${element.poster_path}` : './images/no_image.jpg'}
+                                            movieId={element.id}
+                                            movieName={element.original_title}
+                                        />
+                            })
+                        }
+                    </FourColGrid>
+                    { loading ? <Spinner/> : null }
+                    { (currentPage <= totalPages && !loading) ? 
+                        <LoadMoreBtn text='Load More' onClick={this.loadMoreItems} />
+                        :
+                        null 
+                    }
                 </div>
-              <Spinner />
-              <LoadMoreBtn />  
             </div>
         );
     }
