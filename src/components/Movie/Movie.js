@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
+import { API_URL, API_KEY } from '../../config';
+import Navigation from '../elements/Navigation/Navigation';
+import MovieInfo from '../elements/MovieInfo/MovieInfo';
+import MovieInfoBar from '../elements/MovieInfoBar/MovieInfoBar';
+import FourColGrid from '../elements/FourColGrid/FourColGrid';
+import Actor from '../elements/Actor/Actor';
+import Spinner from '../elements/Spinner/Spinner';
 import './Movie.scss';
 
+
 export default class Movie extends Component {
-    constructor(props) {
-        super(props);
-    }
-    
     render() {
         return (
-            <>
+            <div className='rmdb-movie'>
+                <Navigation />
+                <Movie />
+                <MovieInfo />
+                <MovieInfoBar />
+                <FourColGrid />
+                <Spinner />
                 Movie
-            </>
+            </div>
         );
     }
 }
