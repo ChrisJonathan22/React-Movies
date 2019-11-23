@@ -44,7 +44,6 @@ export default class Home extends Component {
             currentPage: result.data.page,
             totalPages: this.state.totalPages ? this.state.totalPages : result.data.total_pages
         });
-        console.log(result);
     }
 
         loadMoreItems () {
