@@ -60,19 +60,35 @@ export default class Movie extends Component {
     }
     
     render() {
-        let { loading } = this.state;
+        let { loading, movie, directors, actors } = this.state;
         return (
             <div className='rmdb-movie'>
-                <Navigation />
-                {/* <Movie /> */}
-                <MovieInfo />
-                <MovieInfoBar />
-                {/* <FourColGrid /> */}
+                { movie ?
+                    <div>
+                        <Navigation movie={this.props.location.movieName} />
+                        <MovieInfo movie={movie} directors={directors} />
+                        <MovieInfoBar time={movie.runtime} budget={movie.budget} revenue={movie.revenue} />
+                    </div>
+                    :
+                    null
+                }
+                { actors ?
+                    <div className='rmdb-movie-grid'>
+                        <FourColGrid header={'Actors'}>
+                            { actors.map((element, i) => {
+                                    return <Actor key={i} actor={element} />
+                                })
+                            }
+                        </FourColGrid>
+                    </div>
+                    :
+                    null
+                }
+                { !actors && !loading ? <h1>No Movie Found!</h1> : null }
                 {loading ? <Spinner />
                     :
                     null
                 }
-                
             </div>
         );
     }

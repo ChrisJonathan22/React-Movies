@@ -15,16 +15,17 @@ export default class SearchBar extends Component {
     }
 
     search (event) {
-        let { timeout } = this.state
+        let { timeout, value } = this.state
         this.setState({ value: event.target.value });
-        clearTimeout(this.state.timeout);
+        clearTimeout(timeout);
 
         timeout = setTimeout(() => {
-            this.props.callback(this.state.value);
+            this.props.callback(value);
         }, 500);
     }
     
     render() {
+        let { search, value } = this.state;
         return (
             <div className='rmdb-searchbar'>
                 <div className='rmdb-searchbar-content'>
@@ -34,7 +35,7 @@ export default class SearchBar extends Component {
                         className='rmdb-searchbar-input'
                         placeholder='Search movies...'
                         onChange={this.search}
-                        value={this.state.value} 
+                        value={value} 
                     />
                 </div> 
             </div>

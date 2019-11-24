@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './HeroImage.scss';
 
 const HeroImage = (props) => {
@@ -21,6 +22,11 @@ const HeroImage = (props) => {
             </div>
         </div>
     );
+};
+
+HeroImage.propTypes = {
+    title: PropTypes.string,
+    text: PropTypes.string
 };
 
 export default HeroImage;
