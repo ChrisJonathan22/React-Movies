@@ -76,7 +76,7 @@ export default class Movie extends Component {
                     <div className='rmdb-movie-grid'>
                         <FourColGrid header={'Actors'}>
                             { actors.map((element, i) => {
-                                    return <Actor key={i} actor={element} />
+                                    return <Actor key={i} actor={element} />;
                                 })
                             }
                         </FourColGrid>

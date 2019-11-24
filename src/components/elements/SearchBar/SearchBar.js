@@ -25,7 +25,7 @@ export default class SearchBar extends Component {
     }
     
     render() {
-        let { search, value } = this.state;
+        let { value } = this.state;
         return (
             <div className='rmdb-searchbar'>
                 <div className='rmdb-searchbar-content'>
