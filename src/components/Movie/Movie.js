@@ -60,6 +60,7 @@ export default class Movie extends Component {
     }
     
     render() {
+        let { loading } = this.state;
         return (
             <div className='rmdb-movie'>
                 <Navigation />
@@ -67,7 +68,11 @@ export default class Movie extends Component {
                 <MovieInfo />
                 <MovieInfoBar />
                 {/* <FourColGrid /> */}
-                <Spinner />
+                {loading ? <Spinner />
+                    :
+                    null
+                }
+                
             </div>
         );
     }
