@@ -24,11 +24,16 @@ export default class Movie extends Component {
     }
 
     componentDidMount() {
-        this.setState({ loading: true });
-        // First fetch the movie...
-        // This expression "this.props.match.params.movieId" allows for parameter from the URL to be accessible
-        const endpoint = `${API_URL}movie/${this.props.match.params.movieId}?api_key=${API_KEY}&language=en-US`;
-        this.fetchItems(endpoint);
+        if (localStorage.getItem(`${this.props.match.params.movieId}`)) {
+            const state = JSON.parse(localStorage.getItem(`${this.props.match.params.movieId}`));
+            this.setState({ ...state });
+        } else {
+            this.setState({ loading: true });
+            // First fetch the movie...
+            // This expression "this.props.match.params.movieId" allows for parameter from the URL to be accessible
+            const endpoint = `${API_URL}movie/${this.props.match.params.movieId}?api_key=${API_KEY}&language=en-US`;
+            this.fetchItems(endpoint);
+        }
     }
 
     async fetchItems (endpoint) {
@@ -53,7 +58,7 @@ export default class Movie extends Component {
                     directors,
                     loading: false
                 }, () => {
-                    console.log('Actors', this.state.actors);
+                    localStorage.setItem(`${this.props.match.params.movieId}`, JSON.stringify(this.state));
                 });
             });
         }

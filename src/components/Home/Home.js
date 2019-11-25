@@ -29,20 +29,31 @@ export default class Home extends Component {
 
 
     componentDidMount() {
-        this.setState({ loading: true });
-        const ENDPOINT = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-        this.fetchItems(ENDPOINT);
+        if (localStorage.getItem('HomeState')) {
+            const state = JSON.parse(localStorage.getItem('HomeState'));
+            this.setState({ ...state });
+        } else {
+            this.setState({ loading: true });
+            const ENDPOINT = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+            this.fetchItems(ENDPOINT);
+        }
     }
 
     async fetchItems (url) {
         let result = await axios.get(url);
+        const { movies, heroImage, totalPages,searchTerm } = this.state;
         // The code below allows us to copy any previous movies and append new movies.
         this.setState({
-            movies: [...this.state.movies, ...result.data.results],
-            heroImage: this.state.heroImage ? this.state.heroImage : result.data.results[0],
+            movies: [...movies, ...result.data.results],
+            heroImage: heroImage ? heroImage : result.data.results[0],
             loading: false,
             currentPage: result.data.page,
-            totalPages: this.state.totalPages ? this.state.totalPages : result.data.total_pages
+            totalPages: totalPages ? totalPages : result.data.total_pages
+        }, () => {
+            // Store the state inside the local storage.
+            if (searchTerm === '') {
+                localStorage.setItem('HomeState', JSON.stringify(this.state));
+            }
         });
     }
 
