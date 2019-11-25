@@ -39,9 +39,10 @@ export default class Home extends Component {
         }
     }
 
-    async fetchItems (url) {
-        let result = await axios.get(url);
+    async fetchItems (endpoint) {
+        let result = await axios.get(endpoint);
         const { movies, heroImage, totalPages,searchTerm } = this.state;
+        try {
         // The code below allows us to copy any previous movies and append new movies.
         this.setState({
             movies: [...movies, ...result.data.results],
@@ -57,6 +58,10 @@ export default class Home extends Component {
         });
     }
 
+        catch(e) {
+            console.log('There was an error: ', e);
+        }
+    }
         loadMoreItems () {
         let endpoint = '';
         this.setState({ loading: true });
