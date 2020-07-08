@@ -1,1 +1,3 @@
+This is a Movie Database app built with ReactJS which allows user's to search for movies and access information about those movies such as the actors, directors, rating etc...
+
 To access the app please follow this link https://www.chrisjonathan.co.uk/react_movie_app/ .
