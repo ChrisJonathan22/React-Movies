@@ -69,7 +69,7 @@ export default class Home extends Component {
         let { searchTerm, currentPage } = this.state;
 
         if (searchTerm === '') {
-            endpoint = `${API_URL}movie/popular/api_key=${API_KEY}&language=en-US&page=${currentPage + 1}`;
+            endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${currentPage + 1}`;
         } else {
             endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}&page=${currentPage + 1}`;
         }
